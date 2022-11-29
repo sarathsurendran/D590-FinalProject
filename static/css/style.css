@@ -1,0 +1,17 @@
+.loader {
+    position: relative;
+    top: 200px;
+    left: 50%;
+    min-height: 400px;
+}
+
+.scrollspy-example {
+    position: relative;
+    height: 200px;
+    margin-top: .5rem;
+    overflow: auto;
+}
+
+.chosen-container {
+    min-width:200px;
+}

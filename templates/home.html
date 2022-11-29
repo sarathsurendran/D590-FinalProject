@@ -1,0 +1,98 @@
+{% extends "index.html" %}
+{% block body %}
+<input type="hidden" value={{made_by}} />
+<div class=" border" style="grid-area: content;min-width: 1px;overflow-y: auto;">
+  <main class="container border" style="position:fixed;top:10%;padding: 10px;left: 5%;right: 10%;">
+    <nav class=" ">
+      <div class="nav nav-tabs align-items-center" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button"
+          role="tab" aria-controls="nav-home" aria-selected="true">Exploratory Data Analysis</button>
+        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
+          role="tab" aria-controls="nav-profile" aria-selected="false">Regression Analysis</button>
+        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
+          role="tab" aria-controls="nav-contact" aria-selected="false">Model - Prediction</button>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent" style="height: auto;min-height: 100px;">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+        <div class="dropdown" id="chartsdropdwn" style="min-height: 80px;">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="chartsdropdwnbtn"
+            data-bs-toggle="dropdown" aria-expanded="false" style="position:relative;top:20px">
+            <span>Select Chart to display</span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" value="0" href="#">None</a></li>
+            <li><a class="dropdown-item" value="1" href="#"> Model Vs Year : Barchart</a></li>
+            <li><a class="dropdown-item" value="2" href="#">Vehicles by Top 10 regions : Barchart</a></li>
+            <li><a class="dropdown-item" value="3" href="#">Vehicles by number of cylinders : Barchart</a></li>
+            <li><a class="dropdown-item" value="4" href="#">Vehicles grouped by color : Barchart</a></li>
+          </ul>
+        </div>
+        <div id="eda-chart">
+          <img src="static/images/out.png" alt="Chart not found" width="600" height="600" style="padding:20px">
+        </div>
+      </div>
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div class="loader">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only"></span>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <form style="position: relative;top:20px">
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label" style="width: 100%">Make</label>
+            <select data-placeholder="Type &apos;C&apos; to view" class="chosen-select" tabindex="10">
+              <option value="0">None</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Model</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Year</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Miles (Odometer)</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Prediction Model</label>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false" style="position:relative;top:20px">
+                Linear Regression
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">LR -2</a></li>
+                <li><a class="dropdown-item" href="#">LR -3</a></li>
+              </ul>
+            </div>
+          </div>
+          <br />
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+  var data ={{data|tojson}}
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/home.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/chosen.jquery.min.js') }}"></script>
+
+
+{% endblock %}
