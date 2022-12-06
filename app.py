@@ -9,10 +9,18 @@ import seaborn as sns
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 matplotlib.pyplot.switch_backend('Agg') 
-cfm = pickle.load(open('static/models/lr-cfm.pk1', 'rb'))
+# cfm = pickle.load(open('static/models/lr-cfm.pk1', 'rb'))
 df = pickle.load(open('static/models/test_df_dump.p', 'rb'))
-data={}
-data["made_by"]=list(df["manufacturer"].unique())
+# make_names=[*set(list((df["manufacturer"])))]
+# make_codes=[*set(list((df["make"])))]
+result=""
+
+price_range = (df['price'] >=24000) & (df['price'] <= 34000)
+df_price=df.loc[price_range]
+data=df.to_json(orient = 'records')
+data_price=df_price.to_json(orient = 'records')
+
+ 
 def loadcharts():
     #vehicles by region
     df_reg=df["region"][:10].value_counts().reset_index()
@@ -55,8 +63,7 @@ loadcharts()
 
 @app.route('/')
 def homepage():
-    print(data)
-    return render_template("home.html",data=data)
+    return render_template("home.html",data=data,data_price=data_price)
 
 
 @app.route('/about')

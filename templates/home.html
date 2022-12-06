@@ -9,7 +9,7 @@
           role="tab" aria-controls="nav-home" aria-selected="true">Exploratory Data Analysis</button>
         <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
           role="tab" aria-controls="nav-profile" aria-selected="false">Regression Analysis</button>
-        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
+        <button class="nav-link pred-tab" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
           role="tab" aria-controls="nav-contact" aria-selected="false">Model - Prediction</button>
       </div>
     </nav>
@@ -74,8 +74,41 @@
             </div>
           </div>
           <br />
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" id ="predictbtn" class="btn btn-primary">Submit</button>
         </form>
+        <table class="key-value-table" id="predictdetails" style="position:relative;top:30px" summary=" ">
+          <caption>*The results displayed will be in range +/- 5000 dollars from the predicted amount.</caption>
+          <tbody>
+              <tr>
+                  <th class="width-20">Prediction Model Used :</th>
+                  <td>Linear Regression</td>
+              </tr>
+              <tr>
+                  <th>Predicted Price :</th>
+                  <td>29,000 USD</td>
+              </tr>
+              <tr style="height:20px"><td></td><td></td></tr>
+              <tr>
+               <td> <button type="button" id ="showresults" class="btn btn-primary">Show vehicles in price range</button></td>
+              </tr>
+          </tbody>
+      </table>
+      <table class="table table-hover predict-results"  style="position:relative;top:50px">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Vehicle Model</th>
+            <th scope="col">Type</th>
+            <th scope="col">Manufacturer</th>
+            <th scope="col">Condition</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+          
+        </tbody>
+      </table>
       </div>
     </div>
   </main>
@@ -88,6 +121,7 @@
 
 <script>
   var data ={{data|tojson}}
+  var data_price ={{data_price|tojson}}
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

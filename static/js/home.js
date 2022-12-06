@@ -1,6 +1,8 @@
 
 $().ready(function(){   
     $('#eda-chart').hide();
+    $('#predictdetails').hide();
+    $('.predict-results').hide();
     // Change selected dropdown value for charts and the display logic for each selection
     $('.dropdown-menu a').click(function () {
         var value = $(this).attr('value');
@@ -32,10 +34,48 @@ $().ready(function(){
     });
     
     
-    $.each(data.made_by,function(i,item){
-        $('.chosen-select').append('<option value="'+i+'">'+item+'</option>')
+    test=JSON.parse(data)
+    test_price=JSON.parse(data_price)
+    var make_codes=new Set()
+    var make_names=new Set()
+    var count=0;
+    $.each(test,function(index,item){
+        make_codes.add(test[index].make)
+        make_names.add(test[index].manufacturer)
+
+    })
+
+    make_codes_price=[]
+    $.each(test_price,function(index,item){
+        if(index <15){        
+            $('.predict-results tbody').append('<tr><td>'+(index+1)+'</td><td>'+item.model+'</td><td>'+item.type+'</td><td>'
+        +item.manufacturer+'</td><td>'+item.condition+'</td><td>'+item.price+'</td>')
+    }
+    })
+
+    $('.pred-tab').click(function(){
+        $('#predictdetails').hide();
+        $('.predict-results').hide();
+        $('form').show()
+    })
+    
+    $('#showresults').click(function(){
+        $('.predict-results').show()
+    })
+    console.log(make_codes)
+    make_codes=Array.from(make_codes)
+    make_names=Array.from(make_names)
+    $.each(make_codes,function(i,item){    
+        $('.chosen-select').append('<option value="'+i+'">'+make_names[i]+'</option>')
     });
+   
     $(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
+
+    $('button[id="predictbtn"').click(function(){
+        $('form').hide();
+
+        $('#predictdetails').show();
+    })
 
 });
 

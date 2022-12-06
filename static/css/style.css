@@ -15,3 +15,10 @@
 .chosen-container {
     min-width:200px;
 }
+main.container{
+    min-height: 300px;
+    overflow: auto !important;
+}
+caption{
+    min-width: 700px;
+}
