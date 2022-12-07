@@ -66,15 +66,42 @@ $().ready(function(){
     make_codes=Array.from(make_codes)
     make_names=Array.from(make_names)
     $.each(make_codes,function(i,item){    
-        $('.chosen-select').append('<option value="'+i+'">'+make_names[i]+'</option>')
+        $('.chosen-select').append('<option value="'+item+'">'+make_names[i]+'</option>')
     });
    
     $(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
 
     $('button[id="predictbtn"').click(function(){
         $('form').hide();
+        var server_data = {
+            "make": $('.chosen-select').chosen().val(),
+            "year": $('#vehicle-year').val(),
+            "miles": $('#vehicle-miles').val()
+        };
 
-        $('#predictdetails').show();
+        
+
+        $.ajax({
+            type: "POST",
+            url: "/predict_results",
+            data: JSON.stringify(server_data),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function(result) {
+              console.log("Result:");
+              console.log(result.predicted_price);
+              $('#pred_price').text(result.predicted_price +" USD")
+              $('#predictdetails').show();
+              $('.predict-results tbody').empty() //remove all children
+              veh_data=JSON.parse(result.data)
+              $.each(veh_data,function(index,item){
+              
+                $('.predict-results tbody').append('<tr><td>'+(index+1)+'</td><td>'+item.model+'</td><td>'+item.type+'</td><td>'
+                +item.manufacturer+'</td><td>'+item.condition+'</td><td>'+item.price+'</td>')
+            
+            })
+            } 
+          });
     })
 
 });

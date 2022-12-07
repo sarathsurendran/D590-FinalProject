@@ -1,5 +1,5 @@
 from pydoc import render_doc
-from flask import Flask,render_template,url_for
+from flask import Flask,render_template,url_for,request,jsonify
 from sklearn.metrics import accuracy_score, confusion_matrix,ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 import matplotlib
@@ -18,7 +18,7 @@ result=""
 price_range = (df['price'] >=24000) & (df['price'] <= 34000)
 df_price=df.loc[price_range]
 data=df.to_json(orient = 'records')
-data_price=df_price.to_json(orient = 'records')
+df_price_json=df_price.to_json(orient = 'records')
 
  
 def loadcharts():
@@ -63,8 +63,24 @@ loadcharts()
 
 @app.route('/')
 def homepage():
-    return render_template("home.html",data=data,data_price=data_price)
+    return render_template("home.html",data=data,data_price=df_price_json)
 
+@app.route('/predict_results', methods=['POST'])
+def process_qt_calculation():
+  if request.method == "POST":
+    data = request.get_json()
+    print(type(data["make"]))
+    
+   
+    df_make=df[(df['price']>1000) & (df['make'] == int(data['make']))]
+    df_make_year=df_make[df_make['year'] == int(data['year'])]
+    df_make_year_miles=df_make_year[df_make_year['odometer'] <= int(data['miles'])]
+    price=int(df_make_year_miles['price'].mean())
+    price_range = (df_make_year_miles['price'] >=(price-5000)) & (df_make_year_miles['price'] <= (price-+000))
+    df_price=df_make_year_miles[price_range]
+    df_result=df_price.to_json(orient = 'records')
+    
+  return {"predicted_price":int(df_make_year_miles['price'].mean()),"data":df_result}
 
 @app.route('/about')
 def about():

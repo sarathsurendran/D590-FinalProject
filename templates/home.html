@@ -48,17 +48,17 @@
               <option value="0">None</option>
             </select>
           </div>
-          <div class="mb-3">
+        <!--<div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Model</label>
             <input type="password" class="form-control" id="exampleInputPassword1">
+          </div> -->
+          <div class="mb-3">
+            <label for="vehicle-year" class="form-label">Year</label>
+            <input type="input" class="form-control" id="vehicle-year">
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Year</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Miles (Odometer)</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
+            <label for="vehicle-miles" class="form-label">Miles (Odometer)</label>
+            <input type="input" class="form-control" id="vehicle-miles">
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Prediction Model</label>
@@ -68,8 +68,8 @@
                 Linear Regression
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">LR -2</a></li>
-                <li><a class="dropdown-item" href="#">LR -3</a></li>
+                <li><a class="dropdown-item" href="#">Ridge</a></li>
+                <li><a class="dropdown-item" href="#">Lasso</a></li>
               </ul>
             </div>
           </div>
@@ -85,7 +85,7 @@
               </tr>
               <tr>
                   <th>Predicted Price :</th>
-                  <td>29,000 USD</td>
+                  <td ><span id="pred_price">29,000 USD<span></td>
               </tr>
               <tr style="height:20px"><td></td><td></td></tr>
               <tr>
