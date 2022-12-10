@@ -30,7 +30,7 @@
           </ul>
         </div>
         <div id="eda-chart">
-          <img src="static/images/out.png" alt="Chart not found" width="600" height="600" style="padding:20px">
+          <img src="static/images/out.png" alt="Chart not found" width="900" height="700" style="padding:20px">
         </div>
       </div>
       <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -41,21 +41,25 @@
         </div>
       </div>
       <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-        <form style="position: relative;top:20px">
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label" style="width: 100%">Make</label>
-            <select data-placeholder="Type &apos;C&apos; to view" class="chosen-select" tabindex="10">
+        <form style="position: relative;top:20px" class="row g-3">
+          <!-- <div class="row mb-3">
+            <label for="make" class="col-form-label " >Make</label>
+            <div class="col-sm-10">
+            <select id="make" data-placeholder="Type &apos;C&apos; to view" class="chosen-select-make" tabindex="10">
               <option value="0">None</option>
             </select>
           </div>
-        <!--<div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Model</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
-          </div> -->
-          <div class="mb-3">
-            <label for="vehicle-year" class="form-label">Year</label>
-            <input type="input" class="form-control" id="vehicle-year">
+            <label for="model" class="form-label" style="margin-left:50px">Model</label>
+            <select id="model" data-placeholder="Type &apos;C&apos; to view" class="chosen-select-model" tabindex="10">
+              <option value="0">None</option>
+            </select>
           </div>
+        
+          <div class="mb-3">
+            <label for="vehicle-size" class="form-label">Size</label>
+            <select id="model" data-placeholder="Type &apos;C&apos; to view" class="chosen-select-model" tabindex="10">
+              <option value="0">None</option>
+            </select> 
           <div class="mb-3">
             <label for="vehicle-miles" class="form-label">Miles (Odometer)</label>
             <input type="input" class="form-control" id="vehicle-miles">
@@ -64,17 +68,110 @@
             <label for="exampleInputPassword1" class="form-label">Prediction Model</label>
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                data-bs-toggle="dropdown" aria-expanded="false" style="position:relative;top:20px">
+                data-bs-toggle="dropdown" aria-expanded="false" style="position:relative;top:20px" value="linear">
                 Linear Regression
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">Ridge</a></li>
-                <li><a class="dropdown-item" href="#">Lasso</a></li>
+                <li><a class="dropdown-item" value="ridge" href="#">Ridge</a></li>
+                <li><a class="dropdown-item" value="lasso" href="#">Lasso</a></li>
               </ul>
             </div>
           </div>
           <br />
-          <button type="button" id ="predictbtn" class="btn btn-primary">Submit</button>
+          <button type="button" id ="predictbtn" class="btn btn-primary">Submit</button> -->
+         
+            <div class="col-md-4">
+              <label for="veh-make" class="form-label">Make</label>
+              <select id="veh-make" data-placeholder="Type &apos;C&apos; to view" class="form-control chosen-select-make" tabindex="10">
+                <option value="0">None</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="veh-model" class="form-label">Model</label>
+              <select id="veh-model" data-placeholder="Type &apos;C&apos; to view" class="form-control chosen-select-model" tabindex="10">
+                <option value="0">None</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="veh-size" class="form-label">Size</label>
+              <select id="veh-size" data-placeholder="Type &apos;C&apos; to view" class="form-control chosen-select-size" tabindex="10">
+                <option value="0">None</option>
+              </select>
+            </div>
+          
+          
+            <div class="col-4">
+                <label for="veh-miles" class="form-label">Miles (Odometer)</label>
+                <input type="input" class="form-control" id="veh-miles">
+            </div>
+            <div class="col-4">
+              <label for="veh-year" class="form-label">Year</label>
+              <input type="input" class="form-control" id="veh-year">
+          </div>
+          <div class="col-4">
+            <label for="veh-condition" class="form-label">Condition</label>
+            <select id="veh-condition" data-placeholder="Type &apos;C&apos; to view" class="form-control chosen-select-condition" tabindex="10">
+              <option value="0">None</option>
+            </select>
+        </div>
+
+
+        <div class="col-4">
+          <label for="veh-drive" class="form-label">Drive Type</label>
+          <select id="veh-drive" data-placeholder="Type &apos;C&apos; to view" class="form-control chosen-select-drive" tabindex="10">
+            <option value="0">None</option>
+          </select>
+      </div>
+      <div class="col-4">
+        <label for="veh-transmission" class="form-label">Transmission</label>
+        <select id="veh-transmission" data-placeholder="Type &apos;C&apos; to view" class="form-control chosen-select-transmission" tabindex="10">
+          <option value="0">None</option>
+        </select>
+    </div>
+    <div class="col-4">
+      <label for="veh-color" class="form-label">Color</label>
+      <select id="veh-color" data-placeholder="Type &apos;C&apos; to view" class="form-control chosen-select-color" tabindex="10">
+        <option value="0">None</option>
+      </select>
+  </div>
+  <div class="col-4">
+    <label for="veh-type" class="form-label">Type</label>
+    <select id="veh-type" data-placeholder="Type &apos;C&apos; to view" class="form-control chosen-select-type" tabindex="10">
+      <option value="0">None</option>
+    </select>
+</div>
+
+            <div class="col-12">
+              <label for="inputAddress2" class="form-label">Address 2</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+            </div>
+            <div class="col-md-6">
+              <label for="inputCity" class="form-label">City</label>
+              <input type="text" class="form-control" id="inputCity">
+            </div>
+            <div class="col-md-4">
+              <label for="inputState" class="form-label">State</label>
+              <select id="inputState" class="form-select">
+                <option selected>Choose...</option>
+                <option>...</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label for="inputZip" class="form-label">Zip</label>
+              <input type="text" class="form-control" id="inputZip">
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                  Check me out
+                </label>
+              </div>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">Sign in</button>
+            </div>
+          
         </form>
         <table class="key-value-table" id="predictdetails" style="position:relative;top:30px" summary=" ">
           <caption>*The results displayed will be in range +/- 5000 dollars from the predicted amount.</caption>
@@ -121,7 +218,7 @@
 
 <script>
   var data ={{data|tojson}}
-  var data_price ={{data_price|tojson}}
+
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

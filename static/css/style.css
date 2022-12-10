@@ -14,11 +14,16 @@
 
 .chosen-container {
     min-width:200px;
+    width:100% !important;
 }
 main.container{
     min-height: 300px;
+    height: 900px;
     overflow: auto !important;
 }
 caption{
     min-width: 700px;
+}
+.nav-link:hover{
+    cursor: pointer;
 }
