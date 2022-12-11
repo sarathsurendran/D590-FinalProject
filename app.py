@@ -22,14 +22,14 @@ data=df.to_json(orient = 'records')
 
  
 def loadcharts():
-    #vehicles by region
-    df_reg=df["region"].value_counts()[:10].reset_index()
-    df_reg.columns=["region","count"]
-    plt.xticks(rotation=70)
-    plt.title("Used vehicles available by region - top 10",size=15)
-    ax=sns.barplot(df_reg['region'],df_reg['count'],color = 'g')
-    fig=ax.get_figure()
-    fig.savefig("static/images/charts/by_region.png")
+    # #vehicles by region
+    # df_reg=df["region"].value_counts()[:10].reset_index()
+    # df_reg.columns=["region","count"]
+    # plt.xticks(rotation=70)
+    # plt.title("Used vehicles available by region - top 10",size=15)
+    # ax=sns.barplot(df_reg['region'],df_reg['count'],color = 'g')
+    # fig=ax.get_figure()
+    # fig.savefig("static/images/charts/by_region.png")
 
     #Vehicle count vs cylinders
     df_cylider=df["cylinders"].value_counts().reset_index()
@@ -142,8 +142,8 @@ def process_qt_calculation():
     rm.fit(X_train,y_train)
     y_pred=rm.predict(X_test)
     score =rm.score(X_train,y_train)
-    
     print(score)
+
     
     df_pred=pd.DataFrame(columns=list(cols))
     df_pred.loc[0]=df_pred_data
