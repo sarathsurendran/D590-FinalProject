@@ -32,34 +32,34 @@ def loadcharts():
     # fig.savefig("static/images/charts/by_region.png")
 
     #Vehicle count vs cylinders
-    df_cylider=df["cylinders"].value_counts().reset_index()
-    df_cylider.columns=["cylinders","count"]
-    plt.title("# of cyclinders",size=50)
-    ax=sns.barplot(df_cylider['cylinders'],df_cylider['count'],color = 'b')
-    fig=ax.get_figure()
-    fig.set_size_inches(20, 10, forward=True)
-    fig.savefig("static/images/charts/clynd_count.png",dpi=100)
+    # df_cylider=df["cylinders"].value_counts().reset_index()
+    # df_cylider.columns=["cylinders","count"]
+    # plt.title("# of cyclinders",size=50)
+    # ax=sns.barplot(df_cylider['cylinders'],df_cylider['count'],color = 'b')
+    # fig=ax.get_figure()
+    # fig.set_size_inches(20, 10, forward=True)
+    # fig.savefig("static/images/charts/clynd_count.png",dpi=100)
 
-    #year of manufacturing
-    plt.figure(figsize=(10,15))
-    ax = sns.countplot(df['year'])
-    plt.title("Car Model Year",size=15)
-    k = ax.set_xticklabels(ax.get_xticklabels(),rotation=90,size=10)
-    fig=ax.get_figure()
-    fig.savefig("static/images/charts/year_count.png") 
+    # #year of manufacturing
+    # plt.figure(figsize=(10,15))
+    # ax = sns.countplot(df['year'])
+    # plt.title("Car Model Year",size=15)
+    # k = ax.set_xticklabels(ax.get_xticklabels(),rotation=90,size=10)
+    # fig=ax.get_figure()
+    # fig.savefig("static/images/charts/year_count.png") 
 
-    #paint color
-    plt.figure(figsize=(8,8))
-    color_df = df['paint_color'].value_counts().reset_index()
-    color_df.columns = ['car color','count']
-    plt.title("Color count of Cars",size=20)
-    ax=sns.barplot(color_df['car color'],color_df['count'],color = 'royalblue')
-    fig=ax.get_figure()
-    fig.savefig('static/images/charts/paint_count.png', dpi=fig.dpi)
+    # #paint color
+    # plt.figure(figsize=(8,8))
+    # color_df = df['paint_color'].value_counts().reset_index()
+    # color_df.columns = ['car color','count']
+    # plt.title("Color count of Cars",size=20)
+    # ax=sns.barplot(color_df['car color'],color_df['count'],color = 'royalblue')
+    # fig=ax.get_figure()
+    # fig.savefig('static/images/charts/paint_count.png', dpi=fig.dpi)
 
 
 #Create all charts
-loadcharts()
+#loadcharts()
 
 
 @app.route('/')
