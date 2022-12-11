@@ -22,6 +22,7 @@ data=df.to_json(orient = 'records')
 
  
 def loadcharts():
+    print()
     # #vehicles by region
     # df_reg=df["region"].value_counts()[:10].reset_index()
     # df_reg.columns=["region","count"]
@@ -59,8 +60,7 @@ def loadcharts():
 
 
 #Create all charts
-#loadcharts()
-
+loadcharts()
 
 @app.route('/')
 def homepage():
