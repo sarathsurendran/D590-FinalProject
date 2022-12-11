@@ -27,3 +27,7 @@ caption{
 .nav-link:hover{
     cursor: pointer;
 }
+.key-value-table tr th{
+    padding:5;
+    position:relative
+}

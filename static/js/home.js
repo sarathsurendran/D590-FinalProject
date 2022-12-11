@@ -5,8 +5,15 @@ $().ready(function(){
     $('#nav-pred .loader').hide();
     $('#nav-tabContent .loader').hide();
     $('#chartsdropdwn').show();
+
+    $('.reg-warning').hide();
+
+    $('.coef-plot').hide();
+    $('.reg-details').hide();
+    $('.reg-loader').hide();
+
     // Change selected dropdown value for charts and the display logic for each selection
-    $('.dropdown-menu a').click(function () {
+    $('#chartselect a').click(function () {
         var value = $(this).attr('value');
         console.log("Value selected :: " + value)
         $('#eda-chart').hide()
@@ -35,6 +42,67 @@ $().ready(function(){
         }
     });
     
+   
+    
+    $('.chosen-select-features ').chosen();
+    $('.chosen-select-reg-model').chosen();
+
+    $('#regnbtn').click(function(){
+        $('.reg-warning').hide();
+        cols=$('.chosen-select-features').chosen().val()
+        model=$('.chosen-select-reg-model').chosen().val()
+
+        //validation
+        if(cols.length == 0 || model == -1){
+            $('.reg-warning').show();
+            return;
+        }
+
+        var server_data={
+            "cols":cols,
+            "model":model
+        }
+
+        $('.coef-plot').hide();
+        $('.reg-details').hide();
+        $('.reg-loader').show();
+        $.ajax({
+            type: "POST",
+            url: "/regression-analysis",
+            data: JSON.stringify(server_data),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function(result) {
+              console.log("Result: ");
+              console.log(result)
+              var score=result.score;
+              var coefs=result.coefficients;
+              var intercept=result.intercept;
+              var mse=result.mse;
+              var r2=result.r2score;
+              console.log(coefs)
+              $('#reg_score').text(score);
+              $('#reg_mse').text(mse);
+              $('#reg_r2').text(r2);
+              $('#reg_intercept').text(intercept);
+              $('.coef-plot').show();
+              $('.reg-details').show();
+              $('.reg-loader').hide();
+              var coef_ul=$('<ul class="list-group"></ul>')
+              
+              $.each(coefs,function(i,item){
+                coef_ul.append('<li class="list-group-item">'+item+'</li>');
+              })
+              $('#reg_coef').empty()
+              $('#reg_coef').append(coef_ul)
+              $('#coef_img').attr("src","static/images/charts/coef.png?t="+ new Date().getTime())
+
+
+            } 
+          });
+
+    });
+
     
     data_json=JSON.parse(data)
 

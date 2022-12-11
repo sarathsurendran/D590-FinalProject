@@ -7,9 +7,13 @@ import pickle
 import pandas as pd
 import seaborn as sns
 from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Lasso
 from sklearn.linear_model import Ridge
+import random
+import os
+import glob
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 matplotlib.pyplot.switch_backend('Agg') 
@@ -23,7 +27,6 @@ data=df.to_json(orient = 'records')
 print(sns.__version__)
  
 def loadcharts():
-    
     
     #vehicles by region
     df_reg=df["region"].value_counts()[:10].reset_index()
@@ -147,7 +150,7 @@ def process_qt_calculation():
     rm.fit(X_train,y_train)
     y_pred=rm.predict(X_test)
     score =rm.score(X_train,y_train)
-    print(score)
+    print(score*100)
 
     
     df_pred=pd.DataFrame(columns=list(cols))
@@ -166,13 +169,53 @@ def process_qt_calculation():
     
   return {"predicted_price":int(price),"data":df_result}
 
+@app.route('/regression-analysis',methods=['POST'])
+def do_regression():
+    req_data=request.get_json()
+    cols=req_data["cols"]
+    model=req_data["model"]
+    #Default model if nothing is chosen
+    rm=LinearRegression()
+    
+    #choose regression model
+    if(model == 2):
+        rm=Lasso(alpha=0.5, normalize=True)
+    elif (model ==3):
+        rm=Ridge(alpha = 0.5)
+    
+    X=df[cols]
+    y=df["price"]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=50)
+    
+    rm.fit(X_train,y_train)
+    y_pred=rm.predict(X_test)
+    score =round(rm.score(X_train,y_train)*100,2)
+  
+    predictors = X_train.columns
+
+    fig = plt.figure()
+    plt.figure().clear()
+    coef = pd.Series(rm.coef_,predictors).sort_values()
+
+    plt.rcParams.update({'font.size': 12})
+    ax=coef.plot(kind='bar', ylim=(-2000,2000) ,title='Modal Coefficients')
+    fig=ax.get_figure()
+    fig.set_size_inches(20, 15, forward=True)
+    fig.savefig("static/images/charts/coef.png",dpi=150)
+    
+    result={}
+    result["score"]=score
+    result["coefficients"]=list(rm.coef_)
+    result["mse"]= mean_squared_error(y_test, y_pred)
+    result["r2score"]=r2_score(y_test,y_pred)
+    result["intercept"]=rm.intercept_
+    print(result)
+    return result;
+
 @app.route('/about')
 def about():
-
     title = "Applied Data Science - Final Project - Vehicle Price Prediction"
-
     pageType = 'about'
-
     return render_template("about.html", title=title,  pageType=pageType)
 
 
