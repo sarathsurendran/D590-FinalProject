@@ -4,9 +4,12 @@ from sklearn.metrics import accuracy_score, confusion_matrix,ConfusionMatrixDisp
 import matplotlib.pyplot as plt
 import matplotlib
 import pickle
+import pandas as pd
 import seaborn as sns
 from sklearn.model_selection import train_test_split, cross_val_score
-
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import Ridge
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 matplotlib.pyplot.switch_backend('Agg') 
@@ -67,23 +70,96 @@ def homepage():
 def process_qt_calculation():
   if request.method == "POST":
     data = request.get_json()
-    print(type(data["make"]))
+    print(data)
     
+    #retrieving all request attributes
+    make=int(data["make"])
+    model=int(data["model"])
+    size=int(data["size"])
+    condition=int(data["condition"])
+    transmission=int(data["transmission"])
+    drive=int(data["drive"])
+    cylinders=int(data["cylinders"])
+    type=int(data["type"])
+    color=int(data["color"])
+    year=int(data["year"])
+    miles=int(data["miles"])
+    regressionmodel=int(data["regressionmodel"])
+    
+    #preparing columns for model
     cols=[]
-    if(data["make"] != "NA"):
+    df_pred_data=[]
+    if(make!= -1):
         cols.append("make")
-    if(data["model"] != "NA"):
+        df_pred_data.append(make)
+    if(model != -1):
         cols.append("model_codes")
+        df_pred_data.append(model)
+    if(size != -1):
+        cols.append("size_codes")
+        df_pred_data.append(size)
+    if(condition != -1):
+        cols.append("condition_codes")
+        df_pred_data.append(condition)
+    if(transmission != -1):
+        cols.append("transmission_codes")
+        df_pred_data.append(transmission)
+    if(drive != -1):
+        cols.append("drive_codes")
+        df_pred_data.append(drive)
+    if(cylinders != -1):
+        cols.append("cylinders_codes")
+        df_pred_data.append(cylinders)
+    if(type != -1):
+        cols.append("type_codes")
+        df_pred_data.append(type)
+    if(color != -1):
+        cols.append("paint_color_codes")
+        df_pred_data.append(color)
+    if(year != -1):
+        cols.append("year")
+        df_pred_data.append(year)
+    if(miles != -1):
+        cols.append("odometer")
+        df_pred_data.append(miles)
+    print(cols)
+    
+    #train and test split
+    X=df[cols]
+    y=df["price"]
+    
+    print(X.head(3))
+    print(len(X))
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=50)
+    
+    rm=LinearRegression()
+    #choose regression model
+    if(regressionmodel == 2):
+        rm=Lasso(alpha=0.5, normalize=True)
+    elif (regressionmodel ==3):
+        rm=Ridge(alpha = 0.5)
+    
+    rm.fit(X_train,y_train)
+    y_pred=rm.predict(X_test)
+    score =rm.score(X_train,y_train)
+    
+    print(score)
+    
+    df_pred=pd.DataFrame(columns=list(cols))
+    df_pred.loc[0]=df_pred_data
+
+    #predict price
+    price=int(rm.predict(df_pred))
+    
+    #filter search results based on price and other attributes
     df_make=df[(df['price']>1000) & (df['make'] == int(data['make']))]
     df_make_year=df_make[df_make['year'] == int(data['year'])]
     df_make_year_miles=df_make_year[df_make_year['odometer'] <= int(data['miles'])]
-    price=int(df_make_year_miles['price'].mean())
-    price_range = (df_make_year_miles['price'] >=(price-5000)) & (df_make_year_miles['price'] <= (price-+000))
+    price_range = (df_make_year_miles['price'] >=(price-5000)) & (df_make_year_miles['price'] <= (price+5000))
     df_price=df_make_year_miles[price_range]
     df_result=df_price.to_json(orient = 'records')
     
-  return {"predicted_price":int(df_make_year_miles['price'].mean()),"data":df_result}
+  return {"predicted_price":int(price),"data":df_result}
 
 @app.route('/about')
 def about():

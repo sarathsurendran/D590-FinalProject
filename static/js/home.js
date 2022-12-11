@@ -43,6 +43,9 @@ $().ready(function(){
     var veh_type=new Set()
     var veh_transmission=new Set()
     var make_model={}
+    var veh_drive=new Set()
+    var veh_color=new Set()
+    var veh_cyl=new Set()
     $.each(data_json,function(index,item){
         make_codes.add(data_json[index].make)
         make_names.add(data_json[index].manufacturer)
@@ -50,6 +53,9 @@ $().ready(function(){
         condition_info.add(data_json[index].condition_codes+"~"+data_json[index].condition)
         veh_type.add(data_json[index].type_codes+"~"+data_json[index].type)
         veh_transmission.add(data_json[index].transmission_codes+"~"+data_json[index].transmission)
+        veh_drive.add(data_json[index].drive_codes+"~"+data_json[index].drive)
+        veh_color.add(data_json[index].paint_color_codes+"~"+data_json[index].paint_color)
+        veh_cyl.add(data_json[index].cylinders_codes+"~"+data_json[index].cylinders)
         // creating a dictonary with make to model mapping
         if(make_model.hasOwnProperty(data_json[index].make)){
             var models=make_model[data_json[index].make]
@@ -80,6 +86,9 @@ $().ready(function(){
     condition_info=Array.from(condition_info)
     veh_type=Array.from(veh_type)
     veh_transmission=Array.from(veh_transmission)
+    veh_drive=Array.from(veh_drive)
+    veh_color=Array.from(veh_color)
+    veh_cyl=Array.from(veh_cyl)
     $.each(make_codes,function(i,item){    
         $('.chosen-select-make').append('<option value="'+item+'">'+make_names[i]+'</option>')
     });
@@ -120,32 +129,81 @@ $().ready(function(){
     });
     $('.chosen-select-transmission').trigger('chosen:updated')
 
-    //make
-    $('.chosen-select-make').chosen().change(function() {
+    //make .. on change of make
+    $('.chosen-select-make').chosen().change(function() {console.log($(this).val())
         $('.chosen-select-model').empty();
+        $('.chosen-select-model').append('<option value="-1">None</option>')
+        if($(this).val() == -1){
+            $('.chosen-select-model').trigger('chosen:updated')
+            return;
+        }
         var models=make_model[$(this).val()];
         models=Array.from(models)
         $.each(models,function(i,item){    
             model_struct=item.split("~")
-            
             $('.chosen-select-model').append('<option value="'+model_struct[0]+'">'+model_struct[1]+'</option>')
         });
         $('.chosen-select-model').trigger('chosen:updated')
         //$('#' + $(this).val()).show();
     });
+
+    //drive
+    $('.chosen-select-drive').chosen()
+    $.each(veh_drive,function(i,item){
+        model_struct=item.split("~")
+        $('.chosen-select-drive').append('<option value="'+model_struct[0]+'">'+model_struct[1]+'</option>')
+    });
+    $('.chosen-select-drive').trigger('chosen:updated')
+
+    //color
+    $('.chosen-select-color').chosen()
+    $.each(veh_color,function(i,item){
+        model_struct=item.split("~")
+        $('.chosen-select-color').append('<option value="'+model_struct[0]+'">'+model_struct[1]+'</option>')
+    });
+    $('.chosen-select-color').trigger('chosen:updated')
+
+     //cylinders
+     $('.chosen-select-cylinders').chosen()
+     $.each(veh_cyl,function(i,item){
+         model_struct=item.split("~")
+         $('.chosen-select-cylinders').append('<option value="'+model_struct[0]+'">'+model_struct[1]+'</option>')
+     });
+     $('.chosen-select-cylinders').trigger('chosen:updated')
+
+     $('.chosen-select-pred-model').chosen()
+
     $('button[id="predictbtn"').click(function(){
         $('form').hide();
+
+        //building server data
         var server_data = {
-            "make": "NA",
+            "make": $('.chosen-select-make').chosen().val(),
+            "model":$('.chosen-select-model').chosen().val(),
+            "size":$('.chosen-select-size').chosen().val(),
+            "condition":$('.chosen-select-condition').chosen().val(),
+            "transmission":$('.chosen-select-transmission').chosen().val(),
+            "drive":$('.chosen-select-drive').chosen().val(),
+            "cylinders":$('.chosen-select-cylinders').chosen().val(),
+            "type":$('.chosen-select-type').chosen().val(),
+            "color":$('.chosen-select-color').chosen().val(),
             "year": 0,
-            "miles": 0,
-            "model":0
+            "miles": -1,
+            "regressionmodel":$('.chosen-select-pred-model').chosen().val()
         };
 
-        // make": $('.chosen-select-make').chosen().val(),
-        //     "year": $('#vehicle-year').val(),
-        //     "miles": $('#vehicle-miles').val()
-
+        if($('#veh-miles').val()){
+            server_data.miles=$('#veh-miles').val()
+        }
+        if($('#veh-year').val()){
+            server_data.year=$('#veh-year').val();
+        }
+        
+        //defaulting regression model to 1 if its not selected
+        if(!$('.chosen-select-pred-model').chosen().val()){
+            server_data.regressionmodel=1
+        }
+      
         $.ajax({
             type: "POST",
             url: "/predict_results",
