@@ -2,13 +2,13 @@
 $().ready(function(){   
     $('#eda-chart').hide();
     $('#predictdetails').hide();
-    $('.predict-results').hide();
+    $('#nav-pred .loader').hide();
     // Change selected dropdown value for charts and the display logic for each selection
     $('.dropdown-menu a').click(function () {
         var value = $(this).attr('value');
         console.log("Value selected :: " + value)
         $('#eda-chart').hide()
-        $('#eda-chart img').attr('width', '900').attr('height', '750');
+        $('#eda-chart img').attr('width', '1000').attr('height', '800');
         if (value == 0) {
             $('#chartsdropdwnbtn span').text("Select Chart to display");
             $('#eda-chart').fadeOut(1000);
@@ -17,7 +17,7 @@ $().ready(function(){
             $('#chartsdropdwnbtn span').text($(this).text());
             if (value == 1) {
                 $('#eda-chart img').attr('src', 'static/images/charts/year_count.png');
-                $('#eda-chart img').attr('width', '900').attr('height', '800');
+                $('#eda-chart img').attr('width', '1000').attr('height', '800');
             }
             else if (value == 2) {
                 $('#eda-chart img').attr('src', 'static/images/charts/by_region.png');
@@ -175,7 +175,7 @@ $().ready(function(){
 
     $('button[id="predictbtn"').click(function(){
         $('form').hide();
-
+        $('#nav-pred .loader').show();
         //building server data
         var server_data = {
             "make": $('.chosen-select-make').chosen().val(),
@@ -213,6 +213,7 @@ $().ready(function(){
             success: function(result) {
               console.log("Result:");
               console.log(result.predicted_price);
+              $('#nav-pred .loader').hide();
               $('#pred_price').text(result.predicted_price +" USD")
               $('#predictdetails').show();
               $('.predict-results tbody').empty() //remove all children

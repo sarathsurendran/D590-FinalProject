@@ -7,10 +7,10 @@
       <div class="nav nav-tabs align-items-center" id="nav-tab" role="tablist">
         <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button"
           role="tab" aria-controls="nav-home" aria-selected="true">Exploratory Data Analysis</button>
-        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
-          role="tab" aria-controls="nav-profile" aria-selected="false">Regression Analysis</button>
-        <button class="nav-link pred-tab" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
-          role="tab" aria-controls="nav-contact" aria-selected="false">Model - Prediction</button>
+        <button class="nav-link" id="nav-regression-tab" data-bs-toggle="tab" data-bs-target="#nav-regression" type="button"
+          role="tab" aria-controls="nav-regression" aria-selected="false">Regression Analysis</button>
+        <button class="nav-link pred-tab" id="nav-pred-tab" data-bs-toggle="tab" data-bs-target="#nav-pred" type="button"
+          role="tab" aria-controls="nav-pred" aria-selected="false">Model - Prediction</button>
       </div>
     </nav>
     <div class="tab-content" id="nav-tabContent" style="height: auto;min-height: 100px;">
@@ -33,14 +33,19 @@
           <img src="static/images/out.png" alt="Chart not found" width="900" height="700" style="padding:20px">
         </div>
       </div>
-      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+      <div class="tab-pane fade" id="nav-regression" role="tabpanel" aria-labelledby="nav-regression-tab">
         <div class="loader">
           <div class="spinner-border text-primary" role="status">
             <span class="sr-only"></span>
           </div>
         </div>
       </div>
-      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+      <div class="tab-pane fade" id="nav-pred" role="tabpanel" aria-labelledby="nav-pred-tab">
+        <div class="loader ">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only"></span>
+          </div>
+        </div>
         <form style="position: relative;top:20px" class="row g-3">
             <div class="col-md-4">
               <label for="veh-make" class="form-label">Make</label>
@@ -121,7 +126,7 @@
         <table class="key-value-table" id="predictdetails" style="position:relative;top:30px" summary=" ">
           <caption>*The results displayed will be in range +/- 5000 dollars from the predicted amount.</caption>
           <tbody>
-              
+             
               <tr>
                   <th>Predicted Price :</th>
                   <td ><span id="pred_price">*** USD<span></td>

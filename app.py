@@ -23,7 +23,8 @@ data=df.to_json(orient = 'records')
 print(sns.__version__)
  
 def loadcharts():
-    print()
+    
+    
     #vehicles by region
     df_reg=df["region"].value_counts()[:10].reset_index()
     df_reg.columns=["region","count"]
@@ -31,6 +32,7 @@ def loadcharts():
     plt.title("Used vehicles available by region - top 10",size=15)
     ax=sns.barplot(df_reg['region'],df_reg['count'],color = 'g')
     fig=ax.get_figure()
+    fig.set_size_inches(20, 10, forward=True)
     fig.savefig("static/images/charts/by_region.png")
 
     #Vehicle count vs cylinders
@@ -133,7 +135,9 @@ def process_qt_calculation():
     print(len(X))
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=50)
     
+    #Default model if nothing is chosen
     rm=LinearRegression()
+    
     #choose regression model
     if(regressionmodel == 2):
         rm=Lasso(alpha=0.5, normalize=True)
