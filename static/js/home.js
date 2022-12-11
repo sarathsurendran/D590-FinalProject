@@ -3,6 +3,8 @@ $().ready(function(){
     $('#eda-chart').hide();
     $('#predictdetails').hide();
     $('#nav-pred .loader').hide();
+    $('#nav-tabContent .loader').hide();
+    $('#chartsdropdwn').show();
     // Change selected dropdown value for charts and the display logic for each selection
     $('.dropdown-menu a').click(function () {
         var value = $(this).attr('value');

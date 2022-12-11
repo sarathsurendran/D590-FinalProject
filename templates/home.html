@@ -14,9 +14,14 @@
       </div>
     </nav>
     <div class="tab-content" id="nav-tabContent" style="height: auto;min-height: 100px;">
+      <div class="loader">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only"></span>
+          </div>
+        </div>
       <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
-        <div class="dropdown" id="chartsdropdwn" style="min-height: 80px;">
+        <div class="dropdown" id="chartsdropdwn" style="min-height: 80px;display:none">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="chartsdropdwnbtn"
             data-bs-toggle="dropdown" aria-expanded="false" style="position:relative;top:20px">
             <span>Select Chart to display</span>
@@ -29,7 +34,7 @@
             <li><a class="dropdown-item" value="4" href="#">Vehicles grouped by color : Barchart</a></li>
           </ul>
         </div>
-        <div id="eda-chart">
+        <div id="eda-chart" style="display:none">
           <img src="static/images/out.png" alt="Chart not found" width="900" height="700" style="padding:20px">
         </div>
       </div>
