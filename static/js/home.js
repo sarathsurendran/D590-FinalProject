@@ -11,6 +11,7 @@ $().ready(function(){
     $('.coef-plot').hide();
     $('.reg-details').hide();
     $('.reg-loader').hide();
+    $('.pred-warning').hide();
 
     // Change selected dropdown value for charts and the display logic for each selection
     $('#chartselect a').click(function () {
@@ -146,6 +147,10 @@ $().ready(function(){
         $('form').show()
     })
     
+    $('.regression-tab').click(function(){
+        $('.regr-form').show()
+    })
+
     $('#showresults').click(function(){
         $('.predict-results').show()
     })
@@ -244,8 +249,7 @@ $().ready(function(){
      $('.chosen-select-pred-model').chosen()
 
     $('button[id="predictbtn"').click(function(){
-        $('form').hide();
-        $('#nav-pred .loader').show();
+       
         //building server data
         var server_data = {
             "make": $('.chosen-select-make').chosen().val(),
@@ -268,12 +272,35 @@ $().ready(function(){
         if($('#veh-year').val()){
             server_data.year=$('#veh-year').val();
         }
-        
+        min_factors=3
+        factors_present=0
+        for (var key in server_data) {
+            if (server_data.hasOwnProperty(key)) {
+                if(key == 'year' || key == 'regressionmodel'){
+                    if(server_data[key] != 0){
+                        factors_present++
+                    }
+                }
+                else{
+                    if(server_data[key] > -1){
+                        factors_present++
+                    }
+                }
+            }
+        }
+        if(factors_present<4){
+            $('.pred-warning').show();
+            return;
+        }
+
+        $('form').hide();
+        $('#nav-pred .loader').show();
         //defaulting regression model to 1 if its not selected
         if(!$('.chosen-select-pred-model').chosen().val()){
             server_data.regressionmodel=1
         }
-      
+
+        
         $.ajax({
             type: "POST",
             url: "/predict_results",

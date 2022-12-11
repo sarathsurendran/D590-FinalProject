@@ -7,7 +7,7 @@
       <div class="nav nav-tabs align-items-center" id="nav-tab" role="tablist">
         <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button"
           role="tab" aria-controls="nav-home" aria-selected="true">Exploratory Data Analysis</button>
-        <button class="nav-link" id="nav-regression-tab" data-bs-toggle="tab" data-bs-target="#nav-regression" type="button"
+        <button class="nav-link regression-tab" id="nav-regression-tab" data-bs-toggle="tab" data-bs-target="#nav-regression" type="button"
           role="tab" aria-controls="nav-regression" aria-selected="false">Regression Analysis</button>
         <button class="nav-link pred-tab" id="nav-pred-tab" data-bs-toggle="tab" data-bs-target="#nav-pred" type="button"
           role="tab" aria-controls="nav-pred" aria-selected="false">Model - Prediction</button>
@@ -44,7 +44,7 @@
             <span class="sr-only"></span>
           </div>
         </div>
-        <form style="position: relative;top:20px" class="row g-3">
+        <form style="position: relative;top:20px" class="row regr-form g-3">
           <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
             <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
               <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -143,7 +143,16 @@
             <span class="sr-only"></span>
           </div>
         </div>
+        <div class="alert alert-warning pred-warning alert-dismissible fade show" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg> Please select at least three features and a predicion model !!.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        
         <form style="position: relative;top:20px" class="row g-3">
+          <div class="alert alert-info pred-info alert-dismissible fade show" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg> Vehicle year must be atleast 2000 for the prediction to be accurate !!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
             <div class="col-md-4">
               <label for="veh-make" class="form-label">Make</label>
               <select id="veh-make" data-placeholder="Type &apos;C&apos; to view" class="form-control chosen-select-make" tabindex="10">
@@ -210,8 +219,7 @@
 <div class="col-4">
   <label for="pred-model" class="form-label">Regression Model</label>
   <select id="pred-model" data-placeholder="Type &apos;C&apos; to view" class="form-control chosen-select-pred-model" tabindex="10">
-    <option value="-1">None</option>
-    <option value="1">Linear</option>
+    <option value="1" selected="selected">Linear</option>
     <option value="2">Lasso</option>
     <option value="3">Ridge</option>
   </select>
